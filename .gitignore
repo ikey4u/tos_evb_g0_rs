@@ -27,3 +27,4 @@ tmp
 __pycache__
 # Ignore user specific files in Xcode Project
 xcuserdata
+user_config.h
