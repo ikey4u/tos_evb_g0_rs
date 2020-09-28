@@ -56,7 +56,8 @@ set(LINKER_SCRIPT "../BSP/STM32G070RBTx_FLASH.ld")
 
 # This is normally set in stm32-base.cmake, but libraries may modify it so set
 # it after libraries/subdirectories have been added
-set(CMAKE_EXE_LINKER_FLAGS "${COMMON_DEFINITIONS} -Xlinker -T${LINKER_SCRIPT} -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.map -Wl,--gc-sections -Wl,-v")
+# Enable float printing in stm32, see https://stackoverflow.com/questions/28334435/stm32-printf-float-variable
+set(CMAKE_EXE_LINKER_FLAGS "${COMMON_DEFINITIONS} -u _printf_float -Xlinker -T${LINKER_SCRIPT} -Wl,-Map=${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_PROJECT_NAME}.map -Wl,--gc-sections -Wl,-v ")
 
 ##### Files #####
 
