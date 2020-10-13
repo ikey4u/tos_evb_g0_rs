@@ -24,8 +24,8 @@ set(OBJDUMP ${COMPILER_PREFIX}arm-none-eabi-objdump)
 set(DEBUGGER ${COMPILER_PREFIX}arm-none-eabi-gdb)
 
 # Remove preset linker flags
-set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "") 
-set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "") 
+set(CMAKE_SHARED_LIBRARY_LINK_C_FLAGS "")
+set(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
 set(CMAKE_SHARED_LIBRARY_LINK_ASM_FLAGS "")
 
 # Set library options

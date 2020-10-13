@@ -1,15 +1,3 @@
-# FIXME
-
-- `app/target` 导致固件无法正常运行
-
-    如果 rust 编译后的 `app/target` 目录存在, 此时重新对固件进行编译 
-
-        mkdir -p build && cd build && cmake ..
-        make
-        make flash
-
-    烧录后的系统只会成功订阅一次, 之后无法订阅成功.
-
 # 教程
 
 ## 基本编译信息

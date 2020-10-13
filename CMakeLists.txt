@@ -1,10 +1,3 @@
-# Base TencentOS-Tiny CMake file
-#
-#
-# This file is covered under the MIT license available at: https://opensource.org/licenses/MIT
-
-###### Project Environment #####
-
 # Set minimum CMake version
 cmake_minimum_required(VERSION 2.8.4)
 
@@ -14,20 +7,16 @@ endif()
 
 # Optional verbose mode, uncomment or pass in -DCMAKE_VERBOSE_MAKEFILE=ON
 set(CMAKE_VERBOSE_MAKEFILE ON)
-
 set(TOS_SRC_ROOT $ENV{TOS_SRC_ROOT})
 message(STATUS "Tencent OS source root: ${TOS_SRC_ROOT}.")
-
 set(BOARD TencentOS_Tiny_EVB_G0)
-
 set(CMAKE_C_COMPILER arm-none-eabi-gcc)
 set(CMAKE_AR arm-none-eabi-ar)
-
+# Set universal poject root directory
+set(ROOTDIR ${CMAKE_SOURCE_DIR})
 
 # Set the compiler (must be prior to project setup)
-include(./toolchain/arm-gcc.cmake)
-
-##### Project Setup #####
+include(${ROOTDIR}/toolchain/arm-gcc.cmake)
 
 # Configure project and languages
 project(mqtt_iot_explorer_tc_ch20_oled C CXX ASM)
@@ -48,10 +37,10 @@ endif ()
 # or manually included here.
 
 # Add base libs (emlib, CMSIS, device files)
-include(./toolchain/stm32-base.cmake)
+include(${ROOTDIR}/toolchain/stm32-base.cmake)
 
 
-set(LINKER_SCRIPT "../BSP/STM32G070RBTx_FLASH.ld")
+set(LINKER_SCRIPT ${ROOTDIR}/BSP/STM32G070RBTx_FLASH.ld)
 
 
 # This is normally set in stm32-base.cmake, but libraries may modify it so set
@@ -76,9 +65,9 @@ include_directories(${TOS_SRC_ROOT}/platform/vendor_bsp/st/CMSIS/Device/ST/STM32
 include_directories(${TOS_SRC_ROOT}/platform/vendor_bsp/st/CMSIS/Include)
 
 
-include_directories(./inc)
-include_directories(./BSP/Inc)
-include_directories(./TOS_CONFIG)
+include_directories(${ROOTDIR}/inc)
+include_directories(${ROOTDIR}/BSP/Inc)
+include_directories(${ROOTDIR}/TOS_CONFIG)
 
 
 include_directories(${TOS_SRC_ROOT}/net/at/include)
@@ -86,9 +75,9 @@ include_directories(${TOS_SRC_ROOT}/devices/esp8266_tencent_firmware)
 include_directories(${TOS_SRC_ROOT}/net/tencent_firmware_module_wrapper)
 
 
-include_directories(./BSP/Hardware/CH20)
-include_directories(./BSP/Hardware/OLED)
-include_directories(./BSP/Hardware/PM2D5)
+include_directories(${ROOTDIR}/BSP/Hardware/CH20)
+include_directories(${ROOTDIR}/BSP/Hardware/OLED)
+include_directories(${ROOTDIR}/BSP/Hardware/PM2D5)
 
 
 
@@ -101,22 +90,21 @@ AUX_SOURCE_DIRECTORY(${TOS_SRC_ROOT}/arch/arm/arm-v7m/cortex-m0+/gcc/ SOURCE_FIL
 AUX_SOURCE_DIRECTORY(${TOS_SRC_ROOT}/arch/arm/arm-v7m/common/ SOURCE_FILES)
 #AUX_SOURCE_DIRECTORY(${TOS_SRC_ROOT}/osal/cmsis_os/ SOURCE_FILES)
 
-AUX_SOURCE_DIRECTORY(./ SOURCE_FILES)
-AUX_SOURCE_DIRECTORY(./BSP/Src SOURCE_FILES)
+AUX_SOURCE_DIRECTORY(${ROOTDIR}/BSP/Src SOURCE_FILES)
 
 AUX_SOURCE_DIRECTORY(${TOS_SRC_ROOT}/net/at/src SOURCE_FILES)
 AUX_SOURCE_DIRECTORY(${TOS_SRC_ROOT}/devices/esp8266_tencent_firmware SOURCE_FILES)
 AUX_SOURCE_DIRECTORY(${TOS_SRC_ROOT}/net/tencent_firmware_module_wrapper SOURCE_FILES)
 
 
-AUX_SOURCE_DIRECTORY(./BSP/Hardware/CH20 SOURCE_FILES)
-AUX_SOURCE_DIRECTORY(./BSP/Hardware/OLED SOURCE_FILES)
-AUX_SOURCE_DIRECTORY(./BSP/Hardware/PM2D5 SOURCE_FILES)
+AUX_SOURCE_DIRECTORY(${ROOTDIR}/BSP/Hardware/CH20 SOURCE_FILES)
+AUX_SOURCE_DIRECTORY(${ROOTDIR}/BSP/Hardware/OLED SOURCE_FILES)
+AUX_SOURCE_DIRECTORY(${ROOTDIR}/BSP/Hardware/PM2D5 SOURCE_FILES)
 
 
 # Generate executable and link
 add_executable(${PROJECT_NAME}
-	./BSP/startup_stm32g070xx.s
+	${ROOTDIR}/BSP/startup_stm32g070xx.s
 	${TOS_SRC_ROOT}/arch/arm/arm-v7m/cortex-m0+/gcc/port_s.S
 	${TOS_SRC_ROOT}/osal/cmsis_os/cmsis_os.c
 	${TOS_SRC_ROOT}/platform/vendor_bsp/st/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_cortex.c
@@ -141,7 +129,8 @@ add_executable(${PROJECT_NAME}
 	${TOS_SRC_ROOT}/platform/vendor_bsp/st/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_spi.c
 	${TOS_SRC_ROOT}/platform/vendor_bsp/st/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_spi_ex.c
 	${TOS_SRC_ROOT}/platform/vendor_bsp/st/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_adc.c
-	${SOURCE_FILES})
+	${SOURCE_FILES}
+    ${ROOTDIR}/main.c)
 
 stm32_configure_linker_addresses(${PROJECT_NAME})
 
@@ -159,10 +148,10 @@ endif ()
 ##### Post build #####
 
 # Add post build commands
-include(./toolchain/post-build.cmake)
+include(${ROOTDIR}/toolchain/post-build.cmake)
 
 # Add stlink commands
-include(./toolchain/stlink.cmake)
+include(${ROOTDIR}/toolchain/stlink.cmake)
 
 ##### CMake debug prints #####
 if (CMAKE_VERBOSE_MAKEFILE)
