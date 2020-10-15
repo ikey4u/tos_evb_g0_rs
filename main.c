@@ -1,7 +1,6 @@
 #include "tos_k.h"
 #include "esp8266_tencent_firmware.h"
-#include "tencent_firmware_module_wrapper.h"
-#include "ch20_parser.h"
+#include "tencent_firmware_module_wrapper.h" #include "ch20_parser.h"
 #include "oled.h"
 #include "user_config.h"
 
@@ -135,11 +134,11 @@ void mqtt_demo_task(void)
     }
 }
 
-void application_entry(void *arg)
+/*
+void application_entry()
 {
-    char *str = "TencentOS-tiny";
+    char *str = "TencentOS XXXX";
 
-    /* ≥ı ºªØOLED */
     OLED_Init();
     OLED_Clear();
     OLED_ShowString(0, 0, (uint8_t*)str, 16);
@@ -150,3 +149,5 @@ void application_entry(void *arg)
         tos_task_delay(1000);
     }
 }
+*/
+

@@ -22,7 +22,6 @@ dependencies = [
  "cortex-m 0.5.10",
  "cstr_core",
  "cty 0.2.1",
- "memchr",
 ]
 
 [[package]]

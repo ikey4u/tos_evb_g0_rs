@@ -130,11 +130,15 @@ add_executable(${PROJECT_NAME}
 	${TOS_SRC_ROOT}/platform/vendor_bsp/st/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_spi_ex.c
 	${TOS_SRC_ROOT}/platform/vendor_bsp/st/STM32G0xx_HAL_Driver/Src/stm32g0xx_hal_adc.c
 	${SOURCE_FILES}
-    ${ROOTDIR}/main.c)
+    )
 
 stm32_configure_linker_addresses(${PROJECT_NAME})
 
-target_link_libraries(${PROJECT_NAME} ${LIBS} c nosys)
+add_library(rustcore STATIC ${ROOTDIR}/libs/rustcore/stub.c)
+add_library(rustapp STATIC ${ROOTDIR}/libs/rustapp/stub.c)
+add_library(tosglue STATIC ${ROOTDIR}/tosglue.c)
+
+target_link_libraries(${PROJECT_NAME} ${LIBS} c nosys rustcore rustapp)
 
 # Link optional libraries if available
 if (${HAS_HARDWARE})
