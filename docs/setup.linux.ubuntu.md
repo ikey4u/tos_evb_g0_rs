@@ -316,16 +316,27 @@
             MAC: 40:f5:20:08:6f:b1
             Hard resetting via RTS pin...
 
-        这里有个神奇的问题, 如果你执行过 esptool.py, 你必须手动按一下板子上的 reset 按键,
-        如果你不按继续执行 esptool.py 命令, 那么这个命令会一直挂起, 输出类似于下面这种
 
-            esptool.py v2.8
-            Serial port /dev/ttyUSB0
-            Connecting........_____....
+        如果连接不上, 考虑如下几种情形
 
-        此外如果提示下面的错误表示你的串口被占用了, 看看你的串口工具是不是连上了.
+        1. reset 板子
 
-            serial.serialutil.SerialException: read failed: device reports readiness to read but returned no data (device disconnected or multiple access on port?)
+            如果之前你执行过 esptool.py, 你必须手动按一下板子上的 reset 按键,
+            如果你不按 reset 继续执行 esptool.py 命令, 那么这个命令会一直挂起, 输出类似于下面这种
+
+                esptool.py v2.8
+                Serial port /dev/ttyUSB0
+                Connecting........_____....
+
+        2. 串口被占用
+
+            如果提示下面的错误表示你的串口被占用了, 看看你的串口工具是不是连上了.
+
+                serial.serialutil.SerialException: read failed: device reports readiness to read but returned no data (device disconnected or multiple access on port?)
+
+        3. STLINK 和串口同时连上了
+
+            把 STLINK 和串口线都拔下来, 只插串口线.
 
     - 刷入固件
 
@@ -470,8 +481,8 @@
 
     串口工具连接板子
 
-        set speed 115200
         set line /dev/ttyUSB0
+        set speed 115200
         set carrier-watch off
         connect
 

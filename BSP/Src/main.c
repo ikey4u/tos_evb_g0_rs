@@ -1,19 +1,26 @@
+/*
+
+    提供 board_init 函数, 最终调用的是
+
+        tos/platform/vendor_bsp/st/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal.h
+
+    中提供的 HAL_Init() 函数
+
+*/
 #include "mcu_init.h"
+
+/*
+
+    位于 tos/platform/vendor_bsp/st/CMSIS/RTOS2/Template/cmsis_os.h
+
+    提供 osKernelXXX 函数
+
+*/
 #include "cmsis_os.h"
 
 #define APPLICATION_TASK_STK_SIZE       1024
 extern void application_entry_rust();
 osThreadDef(application_entry_rust, osPriorityNormal, 1, APPLICATION_TASK_STK_SIZE);
-
-/*
-__weak void application_entry_rust()
-{
-    while (1) {
-        printf("This is a demo task,please use your task entry!\r\n");
-        tos_task_delay(1000);
-    }
-}
-*/
 
 int main(void)
 {
