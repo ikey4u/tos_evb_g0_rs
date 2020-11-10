@@ -1,5 +1,7 @@
 # TencentOS Tiny meets Rust
 
+目前项目代码暂时存放在 `https://github.com/ikey4u/tos_evb_g0_rs`, 后续可能更新到 `https://github.com/Tencent/TencentOS-tiny/tree/tos_evb_g0`.
+
 ## 编译运行
 
 编译前完成如下几步
@@ -194,13 +196,13 @@
 
     项目中最终的目录如下所示
 
-    +-- app/
-        +-- src/
-            + bridge.rs
-            + lib.rs
-        +-- Cargo.toml
-        +-- .cargo/
-            +-- config
+        +-- app/
+            +-- src/
+                + bridge.rs
+                + lib.rs
+            +-- Cargo.toml
+            +-- .cargo/
+                +-- config
     
     配置完成后, 便可在 app 目录执行如下命令编译
 
